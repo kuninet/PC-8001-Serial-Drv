@@ -11,6 +11,7 @@
   * 8251初期化データはの指定順番は下位1バイト目→上位1バイト目の順で8251へ出力されます。注意してください。
   * 入力バッファは128バイトです。バッファフルまたはCRやLFを受信した場合にN-BASICに戻ります。
 ```
+5 CLEAR 300,&hE8FF
 10 DEFUSR1=&HE900   ' 8251 init
 20 DEFUSR2=&hE903   ' serial read
 30 DEFUSR3=&hE906   ' serial Write
