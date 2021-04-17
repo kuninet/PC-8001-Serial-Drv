@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 1 - 2021/04/17 22時24分04秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 1 - 2021/04/17 22時39分53秒
 
 
        1/       0 :                     ;
@@ -60,8 +60,8 @@
       57/    E928 :                     RET_CMT:
       58/    E928 : 3A 66 EA                LD  A,(0EA66h)  ; ワークエリアから I/O 30hへ出力する情報を取得
       59/    E92B : E6 CF                   AND A,0CFh
-      60/    E92D : D3 30                   OUT (30h),A    ; CMTから外部RS232Cへ切り替え
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 2 - 2021/04/17 22時24分04秒
+      60/    E92D : D3 30                   OUT (30h),A    ; 外部RS232CからCMTへ切り替え
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 2 - 2021/04/17 22時39分53秒
 
 
       61/    E92F : C9                      RET
@@ -124,7 +124,7 @@
      118/    E96A :                     ;
      119/    E96A :                     CHAR_OUT:
      120/    E96A : F5                      PUSH AF
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 3 - 2021/04/17 22時24分04秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 3 - 2021/04/17 22時39分53秒
 
 
      121/    E96B :                     CHAR_OUT1:
@@ -139,7 +139,7 @@
      130/    E976 :                     ; RAM
      131/    E976 :                     SERBUF	DS	BUFSIZ
      132/    E9F6 : =80H                BUFLEN  EQU $-SERBUF
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 4 - 2021/04/17 22時24分04秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 4 - 2021/04/17 22時39分53秒
 
 
   Symbol Table (* = unused):
@@ -167,7 +167,7 @@
  SERIAL_READ1 :               0E93C C |  SERIAL_READ_END :            0E952 C |
  SERIAL_WRITE :               0E953 C |  SERIAL_WRITE1 :              0E956 C |
  STR_DISC_SETUP :             0E930 C | *TARGET :                     "Z80" - |
-*TIME :               "22\-026\-103\-12624\-027\-120\-12204\-025\-089\-110" - |
+*TIME :               "22\-026\-103\-12639\-027\-120\-12253\-025\-089\-110" - |
 *TRUE :                           1 - |  UARTRC :                        21 - |
  UARTRD :                        20 - | *VERSION :                     142F - |
 *Z80SYNTAX :                      0 - |
@@ -175,7 +175,7 @@
      50 symbols
      31 unused symbols
 
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 5 - 2021/04/17 22時24分04秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial.asm - Page 5 - 2021/04/17 22時39分53秒
 
 
   Code Pages:
@@ -185,7 +185,7 @@ STANDARD (0 changed characters)
 
 1 code page
 
-0.00 seconds assembly time
+0.01 seconds assembly time
 
     132 lines source file
       2 passes

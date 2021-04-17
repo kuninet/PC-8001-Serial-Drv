@@ -57,7 +57,7 @@ INIT8251:
 RET_CMT:
     LD  A,(0EA66h)  ; ワークエリアから I/O 30hへ出力する情報を取得
     AND A,0CFh
-    OUT (30h),A    ; CMTから外部RS232Cへ切り替え
+    OUT (30h),A    ; 外部RS232CからCMTへ切り替え
     RET
 ;
 ; USR関数から渡ってきたストリングディスクリプタ情報を取得
