@@ -24,6 +24,7 @@ LF	EQU	0AH
     JP  INIT8251
     JP  SERIAL_READ
     JP  SERIAL_WRITE
+    JP  RET_CMT
 ;
 ; 8251 シリアルLSI初期化
 ;
@@ -41,6 +42,22 @@ INIT8251:
 	OUT	(UARTRC),A
 	LD	A,RTSLOW
 	OUT	(UARTRC),A
+;
+;  PC-8001の8251を外部RS232Cヘ
+;
+    LD  A,(0EA66h)  ; ワークエリアから I/O 30hへ出力する情報を取得
+    AND A,0CFh
+    OR  A,20h      ; BS2 = ON
+    OUT (30h),A    ; CMTから外部RS232Cへ切り替え
+;
+    RET
+;
+; 8251をCMT側へ戻す
+;
+RET_CMT:
+    LD  A,(0EA66h)  ; ワークエリアから I/O 30hへ出力する情報を取得
+    AND A,0CFh
+    OUT (30h),A    ; CMTから外部RS232Cへ切り替え
     RET
 ;
 ; USR関数から渡ってきたストリングディスクリプタ情報を取得

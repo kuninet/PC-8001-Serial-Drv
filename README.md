@@ -15,13 +15,14 @@
 10 DEFUSR1=&HE900   ' 8251 init
 20 DEFUSR2=&hE903   ' serial read
 30 DEFUSR3=&hE906   ' serial Write
-40 IN%=&h4E37
-50 A%=USR1(IN%)
-60 INPUT "SEND:";SE$
-70 A$=USR3(SE$)
-80 RE$=""+""
-90 RE$=USR(RE$):PRINT "RECV:";RE$
-100 GOTO 60
+40 DEFUSR4=&hE909   ' 8251 to CMT
+50 IN%=&h4E40
+60 A%=USR1(IN%)
+70 INPUT "SEND:";SE$
+80 A$=USR3(SE$)
+90 RE$=""+""
+100 RE$=USR(RE$):PRINT "RECV:";RE$
+110 A=USER4(0) 
 ```
 
 ## 参考
