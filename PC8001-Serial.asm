@@ -85,12 +85,6 @@ SERIAL_READ:
 SERIAL_READ1:
     CALL CHAR_IN
 ;
-    PUSH AF
-    LD A,C
-    CP BUFLEN
-    JP Z,SERIAL_READ_END ; バッファがいっぱいになったらEXIT
-    POP AF
-;
     CP CR
     JP Z,SERIAL_READ_END ; CRコードがきたらEXIT
     CP LF
@@ -98,6 +92,9 @@ SERIAL_READ1:
 ;
     LD  (HL),A
     INC C
+    LD A,C
+    CP BUFLEN+1
+    JP Z,SERIAL_READ_END ; バッファがいっぱいになったらEXIT
     INC HL
     JP  SERIAL_READ1
 ;
