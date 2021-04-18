@@ -63,12 +63,16 @@ RET_CMT:
 ; USR関数から渡ってきたストリングディスクリプタ情報を取得
 ;
 STR_DISC_SETUP:
+    LD (DISC_LEN_PTR),DE
     LD A,(DE)   ; 文字列長取得
     LD C,A      ; 文字列カウンタはCレジスタ
+    INC DE
     LD A,(DE)
     LD L,A
+    INC DE
     LD A,(DE)
     LD H,A      ; HLレジスタへ文字列ポインタを入れる
+    LD (DISC_PTR),HL
     RET
 ;
 ; USR関数 シリアル受信(ポーリング)
@@ -76,25 +80,42 @@ STR_DISC_SETUP:
 SERIAL_READ:
     CALL STR_DISC_SETUP
 ;
-    LD C,BUFLEN         ; 入力バッファ長をCレジスタヘ
+    LD HL,SERBUF
+    LD C,0
 SERIAL_READ1:
     CALL CHAR_IN
-    DEC C
+;
+    PUSH AF
+    LD A,C
+    CP BUFLEN
     JP Z,SERIAL_READ_END ; バッファがいっぱいになったらEXIT
+    POP AF
+;
     CP CR
     JP Z,SERIAL_READ_END ; CRコードがきたらEXIT
     CP LF
     JP Z,SERIAL_READ_END ; LFコードがきたらEXIT
+;
     LD  (HL),A
+    INC C
     INC HL
     JP  SERIAL_READ1
+;
 SERIAL_READ_END:
+    LD A,C                     ; 文字数をストリングディスクリプタへ
+    LD HL,(DISC_LEN_PTR)       ; 
+    LD (HL),A
+;
+    LD B,0                     ; 受信文字をストリングディスクリプタが指す番地へ
+    LD HL,(DISC_PTR)
+    LD DE,SERBUF
+    LDIR
     RET
 ;
 ; USR関数 シリアル送信
 ;
 SERIAL_WRITE:
-    CALL STR_DISC_SETUP;
+    CALL STR_DISC_SETUP
 SERIAL_WRITE1:
     LD A,(HL)   ; 1文字取得
     CALL CHAR_OUT
@@ -130,3 +151,5 @@ CHAR_OUT1:
 ; RAM
 SERBUF	DS	BUFSIZ
 BUFLEN  EQU $-SERBUF
+DISC_PTR  DS 2
+DISC_LEN_PTR DS 1  
