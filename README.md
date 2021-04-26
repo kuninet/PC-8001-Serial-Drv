@@ -25,6 +25,10 @@
 110 A=USER4(0) 
 ```
 
+### アドレス変更版
+
+* DISK BASICを避けて &hD000に配置するバージョンも添付しました。(PC8001-Serial-D000.asm) 
+
 ## 参考
 * SBC8080データパック
     * http://www.amy.hi-ho.ne.jp/officetetsu/storage/sbc8080_datapack.zip

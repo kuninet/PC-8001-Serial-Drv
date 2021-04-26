@@ -4,7 +4,7 @@
 
 .SUFFIXES: .asm .p .hex .sr
 
-all:	PC8001-Serial.hex
+all:	PC8001-Serial.hex PC8001-Serial-D000.hex
 
 .p.hex:
 	p2hex -F Intel $*.p $*.hex
