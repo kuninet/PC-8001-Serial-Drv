@@ -104,8 +104,8 @@ SERIAL_READ_END:
     LD (HL),A
 ;
     LD B,0                     ; 受信文字をストリングディスクリプタが指す番地へ
-    LD HL,(DISC_PTR)
-    LD DE,SERBUF
+    LD DE,(DISC_PTR)
+    LD HL,SERBUF
     LDIR
     RET
 ;

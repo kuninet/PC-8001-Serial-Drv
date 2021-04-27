@@ -1,4 +1,4 @@
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 1 - 2021/04/26 21時58分57秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 1 - 2021/04/27 20時27分20秒
 
 
        1/       0 :                     ;
@@ -26,7 +26,7 @@
       23/    D000 :                     ;
       24/    D000 : C3 0C D0                JP  INIT8251
       25/    D003 : C3 40 D0                JP  SERIAL_READ
-      26/    D006 : C3 71 D0                JP  SERIAL_WRITE
+      26/    D006 : C3 72 D0                JP  SERIAL_WRITE
       27/    D009 : C3 28 D0                JP  RET_CMT
       28/    D00C :                     ;
       29/    D00C :                     ; 8251 シリアルLSI初期化
@@ -61,7 +61,7 @@
       58/    D028 : 3A 66 EA                LD  A,(0EA66h)  ; ワークエリアから I/O 30hへ出力する情報を取得
       59/    D02B : E6 CF                   AND A,0CFh
       60/    D02D : D3 30                   OUT (30h),A    ; 外部RS232CからCMTへ切り替え
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 2 - 2021/04/26 21時58分57秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 2 - 2021/04/27 20時27分20秒
 
 
       61/    D02F : C9                      RET
@@ -69,7 +69,7 @@
       63/    D030 :                     ; USR関数から渡ってきたストリングディスクリプタ情報を取得
       64/    D030 :                     ;
       65/    D030 :                     STR_DISC_SETUP:
-      66/    D030 : ED 53 16 D1             LD (DISC_LEN_PTR),DE
+      66/    D030 : ED 53 17 D1             LD (DISC_LEN_PTR),DE
       67/    D034 : 1A                      LD A,(DE)   ; 文字列長取得
       68/    D035 : 4F                      LD C,A      ; 文字列カウンタはCレジスタ
       69/    D036 : 13                      INC DE
@@ -78,7 +78,7 @@
       72/    D039 : 13                      INC DE
       73/    D03A : 1A                      LD A,(DE)
       74/    D03B : 67                      LD H,A      ; HLレジスタへ文字列ポインタを入れる
-      75/    D03C : 22 14 D1                LD (DISC_PTR),HL
+      75/    D03C : 22 15 D1                LD (DISC_PTR),HL
       76/    D03F : C9                      RET
       77/    D040 :                     ;
       78/    D040 :                     ; USR関数 シリアル受信(ポーリング)
@@ -86,10 +86,10 @@
       80/    D040 :                     SERIAL_READ:
       81/    D040 : CD 30 D0                CALL STR_DISC_SETUP
       82/    D043 :                     ;
-      83/    D043 : 21 94 D0                LD HL,SERBUF
+      83/    D043 : 21 95 D0                LD HL,SERBUF
       84/    D046 : 0E 00                   LD C,0
       85/    D048 :                     SERIAL_READ1:
-      86/    D048 : CD 7E D0                CALL CHAR_IN
+      86/    D048 : CD 7F D0                CALL CHAR_IN
       87/    D04B :                     ;
       88/    D04B : FE 0D                   CP CR
       89/    D04D : CA 61 D0                JP Z,SERIAL_READ_END ; CRコードがきたらEXIT
@@ -106,60 +106,60 @@
      100/    D061 :                     ;
      101/    D061 :                     SERIAL_READ_END:
      102/    D061 : 79                      LD A,C                     ; 文字数をストリングディスクリプタへ
-     103/    D062 : 2A 16 D1                LD HL,(DISC_LEN_PTR)       ; 
+     103/    D062 : 2A 17 D1                LD HL,(DISC_LEN_PTR)       ; 
      104/    D065 : 77                      LD (HL),A
      105/    D066 :                     ;
      106/    D066 : 06 00                   LD B,0                     ; 受信文字をストリングディスクリプタが指す番地へ
-     107/    D068 : 2A 14 D1                LD HL,(DISC_PTR)
-     108/    D06B : 11 94 D0                LD DE,SERBUF
-     109/    D06E : ED B0                   LDIR
-     110/    D070 : C9                      RET
-     111/    D071 :                     ;
-     112/    D071 :                     ; USR関数 シリアル送信
-     113/    D071 :                     ;
-     114/    D071 :                     SERIAL_WRITE:
-     115/    D071 : CD 30 D0                CALL STR_DISC_SETUP
-     116/    D074 :                     SERIAL_WRITE1:
-     117/    D074 : 7E                      LD A,(HL)   ; 1文字取得
-     118/    D075 : CD 88 D0                CALL CHAR_OUT
-     119/    D078 : 23                      INC HL
-     120/    D079 : 0D                      DEC C
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 3 - 2021/04/26 21時58分57秒
+     107/    D068 : ED 5B 15 D1             LD DE,(DISC_PTR)
+     108/    D06C : 21 95 D0                LD HL,SERBUF
+     109/    D06F : ED B0                   LDIR
+     110/    D071 : C9                      RET
+     111/    D072 :                     ;
+     112/    D072 :                     ; USR関数 シリアル送信
+     113/    D072 :                     ;
+     114/    D072 :                     SERIAL_WRITE:
+     115/    D072 : CD 30 D0                CALL STR_DISC_SETUP
+     116/    D075 :                     SERIAL_WRITE1:
+     117/    D075 : 7E                      LD A,(HL)   ; 1文字取得
+     118/    D076 : CD 89 D0                CALL CHAR_OUT
+     119/    D079 : 23                      INC HL
+     120/    D07A : 0D                      DEC C
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 3 - 2021/04/27 20時27分20秒
 
 
-     121/    D07A : C2 74 D0                JP NZ,SERIAL_WRITE1
-     122/    D07D :                     ;
-     123/    D07D : C9                      RET
-     124/    D07E :                     
-     125/    D07E :                     ;
-     126/    D07E :                     ; 8251から1文字入力
-     127/    D07E :                     ;
-     128/    D07E :                     CHAR_IN:
-     129/    D07E : DB 21                   IN  A,(UARTRC)
-     130/    D080 : E6 02                   AND A,02h
-     131/    D082 : CA 7E D0                JP  Z,CHAR_IN
-     132/    D085 : DB 20                   IN  A,(UARTRD)
-     133/    D087 : C9                      RET
-     134/    D088 :                     ;
-     135/    D088 :                     ; 8251へ1文字出力
-     136/    D088 :                     ;
-     137/    D088 :                     CHAR_OUT:
-     138/    D088 : F5                      PUSH AF
-     139/    D089 :                     CHAR_OUT1:
-     140/    D089 : DB 21                   IN A,(UARTRC)
-     141/    D08B : E6 01                   AND A,01h
-     142/    D08D : CA 89 D0                JP  Z,CHAR_OUT1
-     143/    D090 : F1                      POP AF
-     144/    D091 : D3 20                   OUT (UARTRD),A
-     145/    D093 : C9                      RET
-     146/    D094 :                     ;
-     147/    D094 :                     ;
-     148/    D094 :                     ; RAM
-     149/    D094 :                     SERBUF	DS	BUFSIZ
-     150/    D114 : =80H                BUFLEN  EQU $-SERBUF
-     151/    D114 :                     DISC_PTR  DS 2
-     152/    D116 :                     DISC_LEN_PTR DS 1  
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 4 - 2021/04/26 21時58分57秒
+     121/    D07B : C2 75 D0                JP NZ,SERIAL_WRITE1
+     122/    D07E :                     ;
+     123/    D07E : C9                      RET
+     124/    D07F :                     
+     125/    D07F :                     ;
+     126/    D07F :                     ; 8251から1文字入力
+     127/    D07F :                     ;
+     128/    D07F :                     CHAR_IN:
+     129/    D07F : DB 21                   IN  A,(UARTRC)
+     130/    D081 : E6 02                   AND A,02h
+     131/    D083 : CA 7F D0                JP  Z,CHAR_IN
+     132/    D086 : DB 20                   IN  A,(UARTRD)
+     133/    D088 : C9                      RET
+     134/    D089 :                     ;
+     135/    D089 :                     ; 8251へ1文字出力
+     136/    D089 :                     ;
+     137/    D089 :                     CHAR_OUT:
+     138/    D089 : F5                      PUSH AF
+     139/    D08A :                     CHAR_OUT1:
+     140/    D08A : DB 21                   IN A,(UARTRC)
+     141/    D08C : E6 01                   AND A,01h
+     142/    D08E : CA 8A D0                JP  Z,CHAR_OUT1
+     143/    D091 : F1                      POP AF
+     144/    D092 : D3 20                   OUT (UARTRD),A
+     145/    D094 : C9                      RET
+     146/    D095 :                     ;
+     147/    D095 :                     ;
+     148/    D095 :                     ; RAM
+     149/    D095 :                     SERBUF	DS	BUFSIZ
+     150/    D115 : =80H                BUFLEN  EQU $-SERBUF
+     151/    D115 :                     DISC_PTR  DS 2
+     152/    D117 :                     DISC_LEN_PTR DS 1  
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 4 - 2021/04/27 20時27分20秒
 
 
   Symbol Table (* = unused):
@@ -168,10 +168,10 @@
 *ARCHITECTURE :  "x86_64-apple-osx" - | *BIGENDIAN :                      0 - |
 *BRANCHEXT :                      0 - |  BUFLEN :                        80 - |
  BUFSIZ :                        80 - | *CASESENSITIVE :                  0 - |
- CHAR_IN :                    0D07E C |  CHAR_OUT :                   0D088 C |
- CHAR_OUT1 :                  0D089 C | *CONSTPI :        3.141592653589793 - |
- CR :                            0D - | *DATE :                "2021/04/26" - |
- DISC_LEN_PTR :               0D116 C |  DISC_PTR :                   0D114 C |
+ CHAR_IN :                    0D07F C |  CHAR_OUT :                   0D089 C |
+ CHAR_OUT1 :                  0D08A C | *CONSTPI :        3.141592653589793 - |
+ CR :                            0D - | *DATE :                "2021/04/27" - |
+ DISC_LEN_PTR :               0D117 C |  DISC_PTR :                   0D115 C |
 *FALSE :                          0 - | *FULLPMMU :                       1 - |
 *HAS64 :                          1 - | *HASDSP :                         0 - |
 *HASFPU :                         0 - | *HASPMMU :                        0 - |
@@ -184,11 +184,11 @@
 *PACKING :                        0 - | *PADDING :                        1 - |
 *RELAXED :                        0 - |  RET_CMT :                    0D028 C |
 *RTSHIG :                        17 - |  RTSLOW :                        37 - |
- SERBUF :                     0D094 C |  SERIAL_READ :                0D040 C |
+ SERBUF :                     0D095 C |  SERIAL_READ :                0D040 C |
  SERIAL_READ1 :               0D048 C |  SERIAL_READ_END :            0D061 C |
- SERIAL_WRITE :               0D071 C |  SERIAL_WRITE1 :              0D074 C |
+ SERIAL_WRITE :               0D072 C |  SERIAL_WRITE1 :              0D075 C |
  STR_DISC_SETUP :             0D030 C | *TARGET :                     "Z80" - |
-*TIME :               "21\-026\-103\-12658\-027\-120\-12257\-025\-089\-110" - |
+*TIME :               "20\-026\-103\-12627\-027\-120\-12220\-025\-089\-110" - |
 *TRUE :                           1 - |  UARTRC :                        21 - |
  UARTRD :                        20 - | *VERSION :                     142F - |
 *Z80SYNTAX :                      0 - |
@@ -196,7 +196,7 @@
      52 symbols
      31 unused symbols
 
- AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 5 - 2021/04/26 21時58分57秒
+ AS V1.42 Beta [Bld 180] - Source File PC8001-Serial-D000.asm - Page 5 - 2021/04/27 20時27分20秒
 
 
   Code Pages:
